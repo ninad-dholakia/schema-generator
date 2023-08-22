@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Schema Generator - Processed Data</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <style>
+        body {
+            text-align: center;
+        }
+        .container {
+            margin: auto;
+            width: 70%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Schema Generator</h1>
+        <h2>Processed File Columns and Datatypes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Datatype</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for column in columns %}
+                <tr>
+                    <td>{{ column.name }}</td>
+                    <td>{{ column.datatype }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
