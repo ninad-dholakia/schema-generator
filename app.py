@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import pandas as pd
+import sqlite3
 
 app = Flask(__name__)
 
@@ -7,11 +8,9 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route("/uploadfile", methods=['GET', 'POST'])
+@app.route("/uploadfile", methods=['POST'])
 def uploadfile():
     file = request.files['file']
-    table_name = request.form['table_name']
-
     if file:
         if file.filename.endswith('.csv'):
             df = pd.read_csv(file)
@@ -22,12 +21,28 @@ def uploadfile():
         else:
             return render_template('error.html', message = "Unsupported file format")
 
-        template = [{'name': col, 'datatype': str(df[col].dtype)} for col in df.columns]
-        # for c in df.columns:
-        #     template[c]=type(df[c].iloc[0])
-        print(template)
-    return render_template('display_schema.html',columns=template)
+        template = {}
+        for c in df.columns:
+            template[c]=type(df[c].iloc[0])
+    return render_template('display_schema.html',template=template)
 
-@app.route("/idk")
-def idk():
-    return render_template('index.html')
+@app.route("/create_query", methods=['POST'])
+def create_query():
+    table_name = request.form['table_name']
+    columns = request.form.getlist('column_names[]')
+    datatypes = request.form.getlist('column_datatypes[]')
+
+    query = f"CREATE TABLE {table_name} (\n"
+    for column, datatype in zip(columns, datatypes):
+        query += f"    \"{column}\" \"{datatype}\",\n"
+    query = query.rstrip(',\n') + "\n);"
+
+    try:
+        connection = sqlite3.connect('temp.db')
+        cursor = connection.cursor()
+        cursor.execute(query)
+        connection.commit()
+        connection.close()
+    except Exception as e:
+        return render_template('error.html', message = "Please update the file with correct columns and datatypes."+str(e))
+    return render_template('display_query.html',query=query)

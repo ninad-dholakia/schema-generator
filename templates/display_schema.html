@@ -29,22 +29,27 @@
     <div class="container">
         <h1>Schema Generator</h1>
         <h2>Processed File Columns and Datatypes</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Column Name</th>
-                    <th>Datatype</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for column in columns %}
-                <tr>
-                    <td>{{ column.name }}</td>
-                    <td>{{ column.datatype }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <form action ="/create_query" method="post">
+            <label for="table_name">Table Name:</label>
+            <input type="text" id="table_name" name="table_name" required><br><br>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Datatype</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for column, datatype in template.items() %}
+                    <tr>
+                        <td><input type="text" name="column_names[]" value="{{ column }}"></td>
+                        <td><input type="text" name="column_datatypes[]" value="{{ datatype }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <input type="submit" value="Generate Query">
+        </form>
     </div>
 </body>
 </html>

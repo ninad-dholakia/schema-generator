@@ -3,6 +3,33 @@
 <head>
     <title>Schema Generator</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Schema Generator</h1>
+        <form action="/uploadfile" method="post" enctype="multipart/form-data">
+            <div class="file-input-wrapper">
+                <label class="file-input-label" for="file_input">Browse</label>
+                <input type="file" id="file_input" name="file" accept=".csv, .xlsx" required onchange="displayFileName()">
+            </div>
+            <p id="selected_filename">No file selected</p>
+            
+            <input class="button" type="submit" value="Upload File">
+        </form>
+    </div>
+    <script src="/static/scripts.js"></script>
+</body>
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Schema Generator</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <style>
         body {
             text-align: center;
@@ -52,8 +79,6 @@
                 <label class="file-input-label" for="file_input">Browse</label>
                 <input type="file" id="file_input" name="file" accept=".csv, .xlsx" required>
             </div><br><br>
-            <label for="table_name">Table Name:</label>
-            <input type="text" id="table_name" name="table_name" required><br><br>
             <input class="button" type="submit" value="Upload File">
         </form>
     </div>
@@ -63,4 +88,4 @@
         });
     </script>
 </body>
-</html>
+</html> -->
